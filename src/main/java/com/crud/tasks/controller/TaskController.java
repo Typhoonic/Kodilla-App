@@ -11,7 +11,7 @@ import java.util.*;
 @RequestMapping("/v1/task")
 public class TaskController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "getTasks")//endpoint
     public List<TaskDto> getTasks(){
         return new ArrayList<>();
     }
