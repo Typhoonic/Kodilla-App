@@ -29,15 +29,10 @@ public class TaskController {
         return taskDtoList;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTaskById")
-    public TaskDto getTasksById(){
-        Optional<Task> taskListById = dbService.getTaskById(1L);
-        return taskMapper.mapToTaskDto(taskListById.get());
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
     public TaskDto getTask(Long taskId){
-        return new TaskDto(1L, "test title", "test_content");
+        Optional<Task> taskListById = dbService.getTaskById(1L);
+        return taskMapper.mapToTaskDto(taskListById.get());
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
