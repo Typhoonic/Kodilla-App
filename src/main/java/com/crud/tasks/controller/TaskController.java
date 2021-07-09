@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/task")
@@ -29,9 +30,9 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTaskById")
-    public List<TaskDto> getTasksById(){
-        List<Task> taskListById = dbService.getTaskById(1L);
-        return taskMapper.mapToTaskDtoList(taskListById);
+    public TaskDto getTasksById(){
+        Optional<Task> taskListById = dbService.getTaskById(1L);
+        return taskMapper.mapToTaskDto(taskListById.get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
