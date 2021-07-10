@@ -4,9 +4,7 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.NotFound;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +32,7 @@ public class TaskController {
         Optional<Task> taskListById = dbService.getTaskById(1L);
         TaskDto task = null;
 
-        task = taskMapper.mapToTaskDto(taskListById.orElseThrow(NoSuchElementException::new));
+        task = taskMapper.mapToTaskDto(taskListById.orElseThrow(IllegalArgumentException::new));
 
         return task;
     }
