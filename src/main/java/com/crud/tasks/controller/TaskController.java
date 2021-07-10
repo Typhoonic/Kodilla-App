@@ -30,15 +30,11 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
-    public TaskDto getTask(Long taskId) {
+    public TaskDto getTask(Long taskId) throws NoSuchElementException{
         Optional<Task> taskListById = dbService.getTaskById(1L);
         TaskDto task = null;
 
-        try{
-            task = taskMapper.mapToTaskDto(taskListById.get());
-        }catch(NoSuchElementException e){
-            e.getStackTrace();
-        }
+        task = taskMapper.mapToTaskDto(taskListById.orElseThrow(NoSuchElementException::new));
 
         return task;
     }
