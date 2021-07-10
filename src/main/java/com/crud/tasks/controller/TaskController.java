@@ -5,9 +5,7 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -28,28 +26,31 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
-    public TaskDto getTask(Long taskId) throws NoSuchElementException{
-        Optional<Task> taskListById = dbService.getTaskById(1L);
-        TaskDto task = null;
+    public TaskDto getTask(@RequestParam Long taskId) {
+        Optional<Task> taskListById = dbService.getTaskById(taskId);
 
-        task = taskMapper.mapToTaskDto(taskListById.orElseThrow(IllegalArgumentException::new));
+        TaskDto taskDto = taskMapper.mapToTaskDto(taskListById.orElseThrow(IllegalArgumentException::new));
 
-        return task;
+        return taskDto;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(Long taskId){
-
+    public void deleteTask(@RequestParam Long taskId){
+        dbService.deleteTask(taskId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
-    public TaskDto updateTask(TaskDto task){
-        return new TaskDto(1L, "Edited test title", "Test_Content");
+    public TaskDto updateTask(@RequestBody TaskDto taskDto){
+        Task task = taskMapper.mapToTask(taskDto);
+        Task savedTask = dbService.saveTask(task);
+
+        return taskMapper.mapToTaskDto(savedTask);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public void createTask(TaskDto task){
-
+    public void createTask(@RequestBody TaskDto taskDto){
+        Task task = taskMapper.mapToTask(taskDto);
+        dbService.saveTask(task);
     }
 
 }
