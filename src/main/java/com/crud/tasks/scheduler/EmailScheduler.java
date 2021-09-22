@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class EmailScheduler {
+
     private static final String SUBJECT = "Tasks: Once a day email";
     private final SimpleEmailService simpleEmailService;
     private final TaskRepository taskRepository;
@@ -27,7 +28,6 @@ public class EmailScheduler {
     }
 
     private Mail createMail(final String change, final long size){
-
         return new Mail(
                 adminConfig.getAdminMail(),
                 SUBJECT,
