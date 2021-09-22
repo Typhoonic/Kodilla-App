@@ -19,13 +19,20 @@ public class EmailScheduler {
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail(){
         long size = taskRepository.count();
-        simpleEmailService.send(
-                new Mail(
-                        adminConfig.getAdminMail(),
-                        SUBJECT,
-                        "Currently in database you got: " + size + " tasks.",
-                        null
-                )
+
+        if(size == 1)
+            simpleEmailService.send(createMail("task", size));
+        else
+            simpleEmailService.send(createMail("tasks", size));
+    }
+
+    private Mail createMail(final String change, final long size){
+
+        return new Mail(
+                adminConfig.getAdminMail(),
+                SUBJECT,
+                "Currently in database you got: " + size + " " + change,
+                null
         );
     }
 }
