@@ -19,7 +19,7 @@ public class TaskController {
     private final TaskMapper taskMapper;
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")//endpoint
+    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks(){
         List<Task> taskList = dbService.getAllTasks();
         List<TaskDto> taskDtoList = taskMapper.mapToTaskDtoList(taskList);
