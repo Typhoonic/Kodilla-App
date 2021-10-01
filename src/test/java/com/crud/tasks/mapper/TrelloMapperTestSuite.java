@@ -121,7 +121,6 @@ public class TrelloMapperTestSuite {
         assertEquals("4", trelloListsDto.get(1).getId());
         assertFalse(trelloLists.get(0).isClosed());
         assertTrue(trelloLists.get(1).isClosed());
-
     }
 }
 
