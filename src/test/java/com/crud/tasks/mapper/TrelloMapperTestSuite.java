@@ -100,7 +100,7 @@ public class TrelloMapperTestSuite {
         assertEquals(2, trelloLists.size());
         assertEquals("name", trelloLists.get(0).getName());
         assertEquals("2", trelloLists.get(1).getId());
-        assertTrue(trelloLists.get(0).isClosed());
+        assertFalse(trelloLists.get(0).isClosed());
         assertFalse(trelloLists.get(1).isClosed());
     }
 

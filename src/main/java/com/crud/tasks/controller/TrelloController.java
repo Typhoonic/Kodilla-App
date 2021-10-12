@@ -16,7 +16,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class TrelloController {
 
-    @Autowired
     private final TrelloFacade trelloFacade;
 
     @GetMapping("getTrelloBoards")
