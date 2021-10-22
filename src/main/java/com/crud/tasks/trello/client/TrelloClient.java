@@ -25,7 +25,6 @@ public class TrelloClient {
     private final TrelloConfig trelloConfig;
 
     public List<TrelloBoardDto> getTrelloBoards(){
-
         try {
             TrelloBoardDto[] boardsResponse = restTemplate.getForObject(getUrlForTrello(),
                     TrelloBoardDto[].class);
@@ -65,6 +64,4 @@ public class TrelloClient {
                 .encode()
                 .toUri();
     }
-
-
 }
