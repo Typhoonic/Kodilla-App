@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class MailCreatorService {
 
     @Autowired
