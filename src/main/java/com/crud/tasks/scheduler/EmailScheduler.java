@@ -13,12 +13,25 @@ import org.springframework.stereotype.Component;
 public class EmailScheduler {
 
     private static final String SUBJECT = "Tasks: Once a day email";
+    public static final String SUBJECT_TASKS = "Tasks: Number of tasks";
     private final SimpleEmailService simpleEmailService;
     private final TaskRepository taskRepository;
     private final AdminConfig adminConfig;
 
     @Scheduled(cron = "0 0 10 * * *")
-    public void sendInformationEmail(){
+    public void sendInformationAboutTasks() {
+        long size = taskRepository.count();
+        simpleEmailService.send(
+                new Mail(
+                    adminConfig.getAdminMail(),
+                    SUBJECT_TASKS,
+                    "Tasks waiting for to do: " + size,
+                    null
+        ));
+    }
+
+    @Scheduled(cron = "0 0 10 * * *")
+    public void sendInformationEmail() {
         long size = taskRepository.count();
         String task;
 
