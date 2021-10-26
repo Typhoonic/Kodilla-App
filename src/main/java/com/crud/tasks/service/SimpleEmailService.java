@@ -41,6 +41,7 @@ public class SimpleEmailService {
                 messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
             else if(mail.getSubject().equals(EmailScheduler.SUBJECT_TASKS))
                 messageHelper.setText(mailCreatorService.tasksInQueueEmail(mail.getMessage()), true);
+            messageHelper.setText(mail.getMessage());
         };
     }
 

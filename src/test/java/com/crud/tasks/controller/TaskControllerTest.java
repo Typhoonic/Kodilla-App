@@ -46,8 +46,8 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(tasksDto);
         //When&Then
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/v1/task/getTasks")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .get("/v1/tasks")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title", Matchers.is("title")))
@@ -64,8 +64,8 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(optionalTask.orElseThrow(IllegalArgumentException::new))).thenReturn(taskDto);
         //When&Then
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/v1/task/getTask")
-                .contentType(MediaType.APPLICATION_JSON)
+                        .get("/v1/tasks/{taskId}", "2")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .param("taskId", "2"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("content")))
@@ -73,12 +73,21 @@ public class TaskControllerTest {
     }
 
     @Test
-    void shouldDeleteTask() throws Exception{
-        //Given&When&Then
+    void shouldCreateTask() throws Exception {
+        //Given
+        Task task = new Task(3L, "title", "content");
+        TaskDto taskDto = new TaskDto(3L, "title", "content");
+
+        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
+
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(taskDto);
+        //When&Then
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/v1/task/deleteTask")
-                .contentType(MediaType.APPLICATION_JSON)
-                        .param("taskId", "2"))
+                        .post("/v1/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -97,31 +106,23 @@ public class TaskControllerTest {
         String jsonContent = gson.toJson(taskDto);
         //When&Then
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/v1/task/updateTask")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(jsonContent))
+                        .put("/v1/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("title2")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("content2")));
     }
 
     @Test
-    void shouldCreateTask() throws Exception {
-        //Given
-        Task task = new Task(3L, "title", "content");
-        TaskDto taskDto = new TaskDto(3L, "title", "content");
-
-        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
-
-        Gson gson = new Gson();
-        String jsonContent = gson.toJson(taskDto);
-        //When&Then
+    void shouldDeleteTask() throws Exception {
+        //Given&When&Then
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/v1/task/createTask")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(jsonContent))
+                        .delete("/v1/tasks/{taskId}", "2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("taskId", "2"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
+
