@@ -14,3 +14,4 @@ To run the application you must do these steps:
 1. Download MAMP.
 2. Files cloned from frontend page, copy to directory `/MAMP/htdocs`.
 3. Run the `MAMPPRO` on local host, different than `:8080`.
+4. Done ;)
