@@ -20,7 +20,7 @@
 *.tar.gz
 *.rar
 
-
+gradle/wrapper/gradle-wrapper.properties
 .gradle
 /build/
 
